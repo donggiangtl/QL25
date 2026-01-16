@@ -1,0 +1,10 @@
+﻿.toggle-btn::after {
+    content: ">";
+    float: right;
+    margin-left: 3px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-btn[aria-expanded="true"]::after {
+    content: "<";
+}

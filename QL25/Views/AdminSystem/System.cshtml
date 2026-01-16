@@ -1,0 +1,401 @@
+﻿@model DataIO.MyModel.DVTreeNode
+
+@{
+    ViewBag.Title = "System";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+@functions {
+    private string BuildJsTree(DVTreeNode node)
+    {
+        string childrenHtml = "\n";
+        if (node.Children != null || node.Asset != null)
+        {
+            childrenHtml += "<ul>";
+            if (node.Children.Any())
+                foreach (var child in node.Children)
+                {
+                    childrenHtml += BuildJsTree(child) + "\n";
+                }
+            if (node.Asset.Any())
+                foreach (var asset in node.Asset)
+                {
+                    childrenHtml += $"<li id='{asset.ID}*b' class = 'jstree-file' data-quantity = '{asset.SoLuong}' data-jstree='{{\"type\":\"file\"}}' >{asset.TenCD}: {asset.SoLuong}</li>" + "\n";
+                }
+            childrenHtml += "</ul>";
+        }
+
+        if (node.IsOpen)
+            return $"<li id='{node.ID}' class = 'jstree-folder jstree-open' data-parentId = '{node.ParentId}' data-dvtd_id = '{node.DV_TD_ID}' data-jstree='{{\"type\":\"folder\"}}'>" +
+                    $"{node.TenDV}{childrenHtml}" +
+                    $"</li>";
+        else
+            return $"<li id='{node.ID}' class = 'jstree-folder jstree-close' data-parentId = '{node.ParentId}' data-dvtd_id = '{node.DV_TD_ID}' data-jstree='{{\"type\":\"folder\"}}'>" +
+        $"{node.TenDV}{childrenHtml}" +
+        $"</li>";
+    }
+}
+<div id="myjstree">
+    <ul>
+        @Html.Raw(BuildJsTree(Model))
+    </ul>
+</div>
+
+
+<script>
+    $(function () {
+        $('#myjstree')
+            // listen for event
+            .on('open_node.jstree', function (e, data) {
+                updateNodeState(data.node.id, true); // true = opened
+            })
+            .on('close_node.jstree', function (e, data) {
+                updateNodeState(data.node.id, false); // false = closed
+            })
+            // create the instance
+            .jstree(
+                {
+                    "core":
+                    {
+                        "check_callback": true,
+                        'themes': {
+                            'responsive': false
+                        }
+                    },
+
+                    'types': {
+                        'default': { 'icon': 'jstree-folder' },
+                        'folder': { 'icon': 'jstree-folder' },
+                        'file': { 'icon': 'jstree-file' }
+                    },
+
+                    "contextmenu":
+                    {
+                        "items": function ($node) {
+                            if ($node.type == "folder")
+                                return {
+                                    "Create":
+                                    {
+                                        "label": "Thêm đơn vị mới",
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            $('#nodeParentId').val($node.id);
+                                            // Show Bootstrap modal
+                                            var modal = new bootstrap.Modal(document.getElementById('createDVModal'));
+                                            modal.show();
+                                        }
+                                    },
+                                    "Rename":
+                                    {
+                                        "label": "Sửa tên",
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            $('#nodeIdE').val($node.id);
+                                            $('#nodeTextE').val($node.text);
+                                            $('#nodeSignE').val($node.data.sign);
+                                            $('#DV_TD_ID_E').val($node.DV_TD_ID_E);
+                                            // Show Bootstrap modal
+                                            var modal = new bootstrap.Modal(document.getElementById('editDVModal'));
+                                            modal.show();
+                                        }
+                                    },
+                                    "Delete":
+                                    {
+                                        "label": "Xoá",
+                                        "separator_after": true,
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            $('#nodeIdD').val($node.id);
+                                            $('#nodeTextD').val($node.text);
+                                            $('#nodeSignD').val($node.data.sign);
+                                            // Show Bootstrap modal
+                                            var modal = new bootstrap.Modal(document.getElementById('deleteDVModal'));
+                                            modal.show();
+                                        }
+                                    },// end delete
+
+                                    "CreateBC":
+                                    {
+                                        "label": "Thêm biên chế",
+                                        "separator_after": true,
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            $('#nodeId_DV').val($node.id);
+                                            $("#BC_quantity").val(1);
+                                            // Show Bootstrap modal
+                                            var modal = new bootstrap.Modal(document.getElementById('createBCModal'));
+                                            modal.show();
+                                        }
+                                    },// end CreateBC
+                                    "GotoManagerBC":
+                                    {
+                                        "label": "Quản lý biên chế",
+                                        "separator_after": true,
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            const id = $node.id;
+                                            // Build the URL with query parameters
+                                            const url = `/BCManager/Tree2Show?id=${$node.id}`;
+                                            // Redirect the user
+                                            window.location.href = url;
+                                        }
+                                    }// end CreateBC
+                                }
+                            if ($node.type == 'file')
+                                return {
+                                    "Rename":
+                                    {
+                                        "label": "Sửa biên chế",
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            $('#nodeBCIdE').val($node.id);
+                                            $('#BC_quantityE').val($node.data.quantity);
+                                            // Show Bootstrap modal
+                                            var modal = new bootstrap.Modal(document.getElementById('editBCModal'));
+                                            modal.show();
+                                        }
+                                    },
+                                    "Delete":
+                                    {
+                                        "label": "Xoá",
+                                        "action": function (obj) {
+                                            // Set form fields
+                                            $('#nodeId_BC_delete').val($node.id);
+                                            $('#nodeText_BC_delete').val($node.text);
+                                            // Show Bootstrap modal
+                                            var modal = new bootstrap.Modal(document.getElementById('deleteBCModal'));
+                                            modal.show();
+                                        }
+                                    }
+                                }
+
+                        }
+                    },
+
+                    "plugins": ["wholerow", "contextmenu", "types"]//
+                });
+    });
+
+    function updateNodeState(nodeId, isOpened) {
+        $.ajax({
+            type: 'POST',
+            url: '/AdminSystem/SaveNodeState',
+            data: JSON.stringify({ id: nodeId, isOpen: isOpened }),
+            contentType: 'application/json',
+            success: function () {
+                console.log('State saved:', nodeId, isOpened);
+            },
+            error: function (err) {
+                console.error('Save error:', err);
+            }
+        });
+    }
+
+</script>
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="createDVModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("CreateDVByContextMenu", "AdminSystem", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm đơn vị mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="parentId" class="form-label">parentId</label>
+                        <input type="text" class="form-control" id="nodeParentId" name="parentId" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="DV_CreateName" class="form-label">Tên đơn vị mới</label>
+                        <input type="text" class="form-control" id="DV_CreateName" name="DV_CreateName" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="DV_CreateSign" class="form-label">Ký hiệu</label>
+                        <input type="text" class="form-control" id="DV_CreateSign" name="DV_CreateSign" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="DV_TD_ID" class="form-label">Đơn vị tương đương</label>
+                        @Html.DropDownList("DV_TD_ID", null, htmlAttributes: new { @class = "form-control", @name = "DV_TD_ID" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Process</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="editDVModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("EditDVByContextMenu", "AdminSystem", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sửa tên đơn vị</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Id" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="nodeIdE" name="id" readonly="readonly" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nodeTextE" class="form-label">Tên đơn vị mới</label>
+                        <input type="text" class="form-control" id="nodeTextE" name="text" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nodeSignE" class="form-label">Ký hiệu</label>
+                        <input type="text" class="form-control" id="nodeSignE" name="sign" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="DV_TD_ID_E" class="form-label">Đơn vị tương đương</label>
+                        @Html.DropDownList("DV_TD_ID_E", null, htmlAttributes: new { @class = "form-control", @name = "DV_TD_ID_E" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }        
+    </div>
+</div>
+
+<div class="modal fade" id="deleteDVModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("DeleteDVByContextMenu", "AdminSystem", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xoá đơn vị</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="nodeIdD" name="id" readonly="readonly" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nodeTextD" class="form-label">Tên đơn vị</label>
+                        <input type="text" class="form-control" id="nodeTextD" name="text" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nodeTextD" class="form-label">Ký hiệu</label>
+                        <input type="text" class="form-control" id="nodeSignD" name="text" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">OK</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
+
+<div class="modal fade" id="createBCModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("CreateBCFromContexMenu", "AdminSystem", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm biên chế mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="nodeId_DV" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="nodeId_DV" name="node_id_dv" readonly="readonly" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="CD_ID" class="form-label">Chức danh</label>
+                        @Html.DropDownList("CD_ID", null, htmlAttributes: new { @class = "form-control", @name = "CD_ID" })
+                    </div>
+                    <div class="mb-3">
+                        <label for="BC_quantity" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="BC_quantity" name="quantity" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+       
+    </div>
+</div>
+
+<div class="modal fade" id="editBCModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+
+        @using (Html.BeginForm("EditBCByContextMenu", "AdminSystem", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sửa biên chế</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nodeBCIdE" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="nodeBCIdE" name="nodeBCIdE" readonly="readonly" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="BC_quantity" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="BC_quantityE" name="quantity" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
+
+<div class="modal fade" id="deleteBCModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+
+        @using (Html.BeginForm("DeleteBCByContextMenu", "AdminSystem", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xoá biên chế</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nodeId_BC_delete" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="nodeId_BC_delete" name="nodeId_BC_delete" readonly="readonly" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="nodeText_BC_delete" class="form-label">Tên biên chế</label>
+                        <input type="text" class="form-control" id="nodeText_BC_delete" name="text" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">OK</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DataIO.MyModel.HC_ShowModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoTen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CapHam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenCD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenDV)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoTen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CapHam)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TenCD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenDV)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "HCEdit", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "HCDelete", new { id = item.ID })
+        </td>
+    </tr>
+}
+
+</table>

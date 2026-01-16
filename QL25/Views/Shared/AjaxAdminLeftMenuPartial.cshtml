@@ -1,0 +1,39 @@
+﻿<nav class="position-sticky" style="top: 1rem;">
+    <div class="accordion" id="docMenu1">
+        <div class="accordion-item bg-success-subtle">
+            <div class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed border-0  bg-success-subtle my-accordion-padding" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                    TỔ CHỨC, NHÂN SỰ
+                </button>
+            </div>
+            <div id="collapseOne" class="accordion-collapse collapse">
+                <div class="accordion-body my-accordion-padding">
+                    <a href="@Url.Action("CD_TuongDuongIndex", "AdminSystem")" class="menu-link">Chức danh tương đương</a>
+                    <a href="@Url.Action("DV_TDIndex", "AdminSystem")" class="menu-link">Đơn vị tương đương</a>
+                    <a href="@Url.Action("NganhIndex", "AdminSystem")" class="menu-link">Ngành Quân sự</a>
+                    <a href="@Url.Action("ChuyenNganhIndex", "AdminSystem")" class="menu-link">Chuyên ngành</a>
+                    <a href="@Url.Action("CDIndex", "AdminSystem")" class="menu-link">Danh mục Chức danh</a>
+                    <a href="@Url.Action("System", "AdminSystem")" class="menu-link">Hệ thống tổ chức</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion" id="docMenu2">
+        <div class="accordion-item bg-success-subtle">
+            <div class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed border-0  bg-success-subtle my-accordion-padding" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                    QUẢN LÝ TÀI KHOẢN
+                </button>
+            </div>
+            <div id="collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body my-accordion-padding">
+                    <a href="@Url.Action("TaiKhoanIndex", "AdminSystem")" class="menu-link">Danh sách tài khoản</a>
+                    <a href="@Url.Action("TaiKhoanCreate", "AdminSystem")" class="menu-link">Tạo tài khoản mới</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+

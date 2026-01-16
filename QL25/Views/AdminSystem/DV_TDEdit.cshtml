@@ -1,0 +1,34 @@
+﻿@model DataIO.Data.DV_TuongDuong
+@{
+    ViewBag.Title = "DV_TuongDuongEdit";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+@using (Html.BeginForm("DV_TDEdit", "AdminSystem", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>DV_TuongDuong</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenKieuDV, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenKieuDV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenKieuDV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="@Url.Action("DV_TDIndex")">Back to list</a>
+</div>

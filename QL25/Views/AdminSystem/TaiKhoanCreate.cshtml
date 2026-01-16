@@ -1,0 +1,78 @@
+﻿@model DataIO.Data.TaiKhoan
+
+@{
+    ViewBag.Title = "TaiKhoanCreate";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Msg</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>TaiKhoan</h4>
+        <hr />
+        @Html.HiddenFor(model => model.ID)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenTK, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenTK, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TenTK, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MK, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MK, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MK, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="DV_ID" class="form-label">Đơn vị quản lý</label>
+            @Html.DropDownList("DV_ID", null, htmlAttributes: new { @class = "form-control", @name = "dV_ID" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "TaiKhoanIndex")
+</div>
+<script>
+        //--------------------------------------------code xử lý chọn đơn vị để gán tài khoản--------------------------------------
+    $(document).ready(function () {
+
+        
+    });
+
+    
+    //đây là code khi thay đổi selected value một Dropdown thì sẽ thay đổi nội dung một Dropdown khác, nội dung sẽ lấy từ Action
+    @*function addDVs(selectedlv, dvSelect) {
+        console.log("selectedlv = " + selectedlv); // Debugging Check       '@Url.Action("GetDVCxs", "AdminSystem")'
+        $.getJSON('/AdminSystem/GetDVCxs', { lv: selectedlv }, function (dvc_xs) {
+            if (dvc_xs != null && !jQuery.isEmptyObject(dvc_xs)) {
+                dvSelect.append($('<option/>', {
+                    value: null,
+                    text: ""
+                }));
+                $.each(dvc_xs, function (index, dvc_x) {
+                    dvSelect.append($('<option/>', {
+                        value: dvc_x.dV_ID,
+                        text: dvc_x.TenDV
+                    }));
+                });
+            };
+        });
+    }*@
+</script>

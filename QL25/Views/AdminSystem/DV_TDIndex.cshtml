@@ -1,0 +1,30 @@
+﻿@model IEnumerable<DataIO.Data.DV_TuongDuong>
+@{
+    ViewBag.Title = "DV_TuongDuongIndex";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+<p>
+    <a href="@Url.Action("DV_TDCreate")">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenKieuDV)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenKieuDV)
+            </td>
+            <td>
+                <a href="@Url.Action("DV_TDEdit", new { id = item.ID })">Edit</a>|
+                <a href="@Url.Action("DV_TDDelete", new { id = item.ID })">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

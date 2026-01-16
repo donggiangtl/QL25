@@ -1,0 +1,22 @@
+﻿@model IEnumerable<CollegeManager.Models.Student>
+@{
+    Layout = ""~/Views/Shared/_Layout.cshtml"";
+    var cls = ViewBag.Class as CollegeManager.Models.Class;
+}
+<h2>Students in @cls.ClassName</h2>
+<p>@Html.ActionLink(""Add Student"", ""Create"", new { ClassID = cls.ClassID }, new { @class = ""btn btn-primary"" })</p>
+<table class=""table table-bordered"">
+<thead><tr><th>Name</th><th></th></tr></thead>
+<tbody>
+@foreach (var s in Model)
+{
+    <tr>
+        <td>@s.Name</td>
+        <td>
+            @Html.ActionLink(""Edit"", ""Edit"", new { id = s.StudentID }, new { @class = ""btn btn-sm btn-warning"" }) |
+            @Html.ActionLink(""Delete"", ""Delete"", new { id = s.StudentID }, new { @class = ""btn btn-sm btn-danger"" })
+        </td>
+    </tr>
+}
+</tbody>
+</table>

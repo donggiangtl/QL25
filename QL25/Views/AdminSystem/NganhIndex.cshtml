@@ -1,0 +1,30 @@
+﻿@model IEnumerable<DataIO.Data.Nganh>
+@{
+    ViewBag.Title = "NganhIndex";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+<p>
+    <a href="@Url.Action("NganhCreate")">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenNganh)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenNganh)
+            </td>
+            <td>
+                <a href="@Url.Action("NganhEdit", new { id = item.ID })">Edit</a>|
+                <a href="@Url.Action("NganhDelete", new { id = item.ID })">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

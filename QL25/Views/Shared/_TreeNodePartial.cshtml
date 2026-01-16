@@ -1,0 +1,13 @@
+﻿@model DataIO.MyModel.TreeNode
+<ul>
+    <li>
+        @Model.Name
+        @if (Model.Children != null && Model.Children.Any())
+        {
+            foreach (var child in Model.Children)
+            {
+                @Html.Partial("_TreeNodePartial", child)
+            }
+        }
+    </li>
+</ul>

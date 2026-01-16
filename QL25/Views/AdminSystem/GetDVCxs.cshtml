@@ -1,0 +1,32 @@
+﻿@model IEnumerable<DataIO.MyModel.DVC_x>
+
+@{
+    ViewBag.Title = "GetDVCxs";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Msg</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.dV_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenDV)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.dV_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenDV)
+        </td>        
+    </tr>
+}
+
+</table>

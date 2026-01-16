@@ -1,0 +1,89 @@
+﻿@model DataIO.Data.HC
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>HC</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BacDaoTao.TenBac)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BacDaoTao.TenBac)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BC.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BC.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CapChuyenMon.TenCap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CapChuyenMon.TenCap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QH.CapHam)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QH.CapHam)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoTen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgaySinh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgaySinh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayBatDau)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayBatDau)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayKetThuc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayKetThuc)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

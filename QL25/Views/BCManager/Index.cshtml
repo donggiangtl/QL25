@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DataIO.MyModel.BCC_x_Model>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+
+<h2>Danh mục chức danh của @ViewBag.TenDV, lv: @ViewBag.lv</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new {lv = ViewBag.lv, dv_id = ViewBag.dv_id })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DVC_x_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenDV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CD_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenCD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DVC_x_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenDV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CD_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenCD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID, lv = (int)ViewBag.lv }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID, lv = (int)ViewBag.lv })
+            </td>
+        </tr>
+    }
+
+</table>
+

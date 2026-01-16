@@ -1,0 +1,12 @@
+﻿@model IEnumerable<CollegeManager.Models.Class>
+@{
+    var selected = ViewBag.SelectedClassId as int?;
+}
+<ul class=""list-group"">
+@foreach (var cls in Model)
+{
+    <li class=""list-group-item @(selected == cls.ClassID ? ""active"" : """")"">
+        @Html.ActionLink(cls.ClassName, ""ByClass"", ""Students"", new { classId = cls.ClassID }, null)
+    </li>
+}
+</ul>

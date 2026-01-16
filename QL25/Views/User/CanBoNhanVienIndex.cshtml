@@ -1,0 +1,238 @@
+﻿@model DataIO.MyModel.DVTreeNode
+@{
+    ViewBag.Title = "CanBoNhanVienIndex";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<h2>Childnum =  @ViewBag.child</h2>
+
+@functions {
+    private string BuildJsTree(DVTreeNode node)
+    {
+        string childrenHtml = "\n";
+        if (node.Children != null || node.Asset != null)
+        {
+            if (node.IsOpen)
+            {
+                childrenHtml += $"<div class='nested padding-left opened' data-id = '{node.ID}'>";
+                if (node.Asset.Any())
+                    foreach (var asset in node.Asset)
+                    {
+                        childrenHtml += $"<div class = 'content' ><span id = 'b*{asset.ID}' class='cd' data-quantity = '{asset.SoLuong}'>{asset.TenCD}: {asset.SoLuongHC}/{asset.SoLuong}</span></div>" + "\n";
+                    }
+                if (node.Children.Any())
+                    foreach (var child in node.Children)
+                    {
+                        childrenHtml += BuildJsTree(child) + "\n";
+                    }
+
+                childrenHtml += "</div>";
+            }
+            else
+            {
+                childrenHtml += $"<div class='nested padding-left' data-id= '{node.ID}'>";
+                if (node.Asset.Any())
+                    foreach (var asset in node.Asset)
+                    {
+                        childrenHtml += $"<div class = 'content' ><span id = 'b*{asset.ID}' class='cd' data-quantity = '{asset.SoLuong}'>{asset.TenCD}: {asset.SoLuongHC}/{asset.SoLuong}</span></div>" + "\n";
+                    }
+                if (node.Children.Any())
+                    foreach (var child in node.Children)
+                    {
+                        childrenHtml += BuildJsTree(child) + "\n";
+                    }
+
+                childrenHtml += "</div>";
+            }
+        }
+        return $"<div>"
+             + $"<div class='wraper'><div class='caret sign'><i class='fa-solid fa-plus'></i></div><div id = '{node.ID}' class='dv'>{node.TenDV}</div></div>"
+             + childrenHtml
+             + $"</div>";
+    }
+}
+
+
+<div class="row">
+    <div class="this-system col-lg-3 bg-success-subtle d-flex flex-column align-content-center">
+        <div class="text-center text-blue-700 bg-green-200 fs-4 p-1 fw-bold">Hệ thống tổ chức</div>
+        <div class="mt-1 border-1 rounded-2 bg-green-100 border-dark">
+            <div class="gtree">
+                <div id="myUL" class="scrollContainer">
+                    @Html.Raw(BuildJsTree(Model))
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9 bg-primary-subtle d-flex flex-column">
+        <div id="titleOfList" class="text-center text-blue-700 bg-green-200 fs-4 p-1 fw-bold">Danh sách cán bộ, nhân viên</div>
+        <div id="main-content">
+           @Html.Action("CanBoNhanVienList", new { dV_ID = Url.RequestContext.RouteData.Values["dV_ID"] })
+        </div>
+    </div>
+</div>
+<p>isShow = @Request.QueryString["isShow"], ViewBag.dV_ID = @ViewBag.dV_ID</p>
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="createHCModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("CreateHCByContextMenu", "User", FormMethod.Post))
+        {
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm cán bộ, nhân viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="BC_ID" class="form-label">BC_ID</label>
+                        <input type="text" class="form-control" id="BC_ID" name="BC_ID" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="HC_Name" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" id="HC_Name" name="HC_Name" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date_of_birth" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Ngày bắt đầu</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_level" class="form-label">Cấp chuyên môn</label>
+                        @Html.DropDownList("job_level", null, htmlAttributes: new { @class = "form-control", @name = "job_level" })
+                    </div>
+                    <div class="mb-3">
+                        <label for="study_level" class="form-label">Bậc đào tạo</label>
+                        @Html.DropDownList("study_level", null, htmlAttributes: new { @class = "form-control", @name = "study_level" })
+                    </div>
+                    <div class="mb-3">
+                        <label for="military_rank" class="form-label">Quân hàm</label>
+                        @Html.DropDownList("military_rank", null, htmlAttributes: new { @class = "form-control", @name = "military_rank" })
+                    </div>
+                </div>
+
+                <input id="dV_ID" name="dV_ID" type="hidden" value="@ViewBag.dV_ID" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Process</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<!-- Context Menus -->
+<div id="add_cd_contextMenu">
+    <ul>
+        <li id="add_cd">Thêm biên chế mới</li>
+    </ul>
+</div>
+<div id="show_cd_contextMenu">
+    <ul>
+        <li id="show_cd">Xem danh sách cán bộ trực tiếp</li>
+        <li id="show_cd_all">Xem danh sách cán bộ đầy đủ</li>
+    </ul>
+</div>
+@*<link href="~/DataTables/datatables.css" rel="stylesheet" />
+<script src="~/DataTables/datatables.js"></script>*@
+<script>
+    let $currentTarget = null;
+    function onSpecificClassChange(selector, className, callback) {
+        $(selector).each(function () {
+            const target = this;
+
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.attributeName === "class") {
+                        const $el = $(mutation.target);
+
+                        if ($el.hasClass(className)) {
+                            callback($el, "added");   // class was added
+                        } else {
+                            callback($el, "removed"); // class was removed
+                        }
+                    }
+                });
+            });
+
+            observer.observe(target, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+        });
+    }
+    // Right-click on target
+    $(".cd").on("contextmenu", function (e) {
+        e.preventDefault();
+        $currentTarget = $(this); // store clicked element
+        $("#add_cd_contextMenu")
+            .css({ top: e.pageY + "px", left: e.pageX + "px" })
+            .show();
+    });
+    // Menu actions
+    $("#add_cd").on("click", function () {
+        //Set form fields
+        $('#BC_ID').val($currentTarget.attr("id"));
+        // Show Bootstrap modal
+        var modal = new bootstrap.Modal(document.getElementById('createHCModal'));
+        modal.show();
+    });
+    $(".dv").on("contextmenu", function (e) {
+        e.preventDefault();
+        $currentTarget = $(this); // store clicked element
+        $("#show_cd_contextMenu")
+            .css({ top: e.pageY + "px", left: e.pageX + "px" })
+            .show();
+    });
+    $("#show_cd").on("click", function () {
+
+        var url = "CanBoNhanVienList?dV_ID=" + $currentTarget.attr("id");
+        console.log(url);
+        var urlTitle = "GetListTitle?dV_ID=" + $currentTarget.attr("id");
+        LoadListTitle(urlTitle);
+        //loadContent create the table head
+        loadContent(url);        
+        //Load content via DataTable ajax
+    });
+    $("#show_cd_all").on("click", function () {
+
+        var url = "CanBoNhanVienListAll?dV_ID=" + $currentTarget.attr("id");
+        console.log(url);
+        var urlTitle = "GetListTitle?dV_ID=" + $currentTarget.attr("id");
+        LoadListTitle(urlTitle);
+        //loadContent create the table head
+        loadContent(url);
+        //Load content via DataTable ajax
+    });
+    //catch the tag class changing event
+    onSpecificClassChange(".nested", "opened", function (el, status) {
+        if (status === "added") {
+            console.log("✅ 'active' was ADDED to:", el.data("id"));
+            updateNodeState(el.data("id"), true);
+        } else {
+            console.log("❌ 'active' was REMOVED from:", el.data("id"));
+            updateNodeState(el.data("id"), false);
+        }
+    });
+    //function to update the status of nodes
+    function updateNodeState(nodeId, isOpened) {
+        $.ajax({
+            type: 'POST',
+            url: '/User/SaveNodeState',
+            data: JSON.stringify({ id: nodeId, isOpen: isOpened }),
+            contentType: 'application/json',
+            success: function () {
+                console.log('State saved:', nodeId, isOpened);
+            },
+            error: function (err) {
+                console.error('Save error:', err);
+            }
+        });
+    }
+
+    //For DataTable
+
+</script>
+

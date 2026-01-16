@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/admin_css")
+    @Styles.Render("~/Content/jstree_css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jstree")
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-green-300">
+        <div class="container">
+            @Html.ActionLink("QL25", "Index", "AdminSystem", new { area = "" }, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>@Html.ActionLink("ChucDanh", "Index", "CDs", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("UpdateDataSource", "UpdateDataSource", "AdminSystem", new { area = "" }, new { @class = "nav-link" })</li>
+                </ul>
+                @if (Request.IsAuthenticated)
+                {
+                    <ul class="navbar-nav navbar-right">
+                        <li>
+                            <a class="nav-link">Welcome, @ViewBag.UserName</a>
+                        </li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "nav-link" })</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-lg-3 d-none d-lg-block bg-success-subtle">
+                @Html.Partial("AjaxAdminLeftMenuPartial")
+            </div>
+
+            <div id="main-content" class="col-lg-9 bg-primary-subtle">
+                @RenderBody()
+                <!-- AJAX content loads here -->
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/AjaxAdminLayout")
+    @Scripts.Render("~/bundles/jqueryval")
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "CD_TuongDuongIndex";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+@model IEnumerable<DataIO.Data.CD_TuongDuong>
+
+<p>
+    <a href="@Url.Action("CD_TuongDuongCreate")">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenChucDanhTD)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenChucDanhTD)
+            </td>
+            <td>
+                @*<button id="goCD_TD_Edit" class="ajax-link" data-url="@Url.Action("CD_TuongDuongEdit", "AdminSystem", new { id = item.ID })">Edit</button>*@
+                <a href="@Url.Action("CD_TuongDuongEdit", new { id = item.ID })">Edit</a>|
+                <a href="@Url.Action("CD_TuongDuongDelete", new { id = item.ID })">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

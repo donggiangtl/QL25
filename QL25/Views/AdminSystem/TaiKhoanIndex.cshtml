@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DataIO.MyModel.TaiKhoan_x>
+
+@{
+    ViewBag.Title = "TaiKhoanIndex";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+
+<h2>TaiKhoan_xIndex</h2>
+
+<p>
+    @Html.ActionLink("Create New", "TaiKhoanCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenTK)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MK)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenHC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenDV)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenTK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MK)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHC)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TenDV)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "TaiKhoanEdit", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "TaiKhoanDelete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

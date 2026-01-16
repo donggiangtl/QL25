@@ -1,0 +1,42 @@
+﻿@model IEnumerable<DataIO.Data.ChuyenNganh>
+@{
+    ViewBag.Title = "ChuyenNganhIndex";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+<p>
+    <a href="@Url.Action("ChuyenNganhCreate")">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nganh.TenNganh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenChuyenNganh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NhomNganh)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nganh.TenNganh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenChuyenNganh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NhomNganh)
+            </td>
+            <td>
+                <a href="@Url.Action("ChuyenNganhEdit", new { id = item.ID })">Edit</a>|
+                <a href="@Url.Action("ChuyenNganhDelete", new { id = item.ID })">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

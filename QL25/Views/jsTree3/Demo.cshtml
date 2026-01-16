@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Demo";
+    Layout = "~/Views/Shared/_jsTreeDemo.cshtml";
+}
+
+
+
+<div class="col-md-4">
+    <div class="demo" id="using_html_1">
+        <ul>
+            <li>Root node 1</li>
+            <li>Root node 2</li>
+        </ul>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#using_html_1').jstree();
+    });
+</script>

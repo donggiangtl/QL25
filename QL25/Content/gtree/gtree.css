@@ -1,0 +1,136 @@
+﻿.gtree {
+    border: 1px solid black;
+    padding: 10px;
+    min-height: 500px;
+    overflow:auto;
+}
+
+/* Remove default bullets */
+ul, #myUL {
+    list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+}
+
+.wraper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.sign {
+    border: 1px solid black;
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+
+/* Style the caret/arrow */
+.caret {
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+/* .caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+} */
+
+/* /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+/* .caret-down::before {
+  transform: rotate(90deg);
+}  */
+
+/* Hide the nested list */
+.nested {
+    display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.opened {
+    display: block;
+}
+
+.cd {
+    cursor: pointer;
+    white-space: nowrap;
+    color: #7a0a0a;
+}
+
+.dv {
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight:500;
+    color:darkblue;
+}
+
+.selected {
+    background-color: cadetblue;
+}
+
+.padding-left {
+    padding-left: 30px;
+}
+
+/* add_cd_contextMenu */
+#add_cd_contextMenu {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+    #add_cd_contextMenu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #add_cd_contextMenu li {
+        padding: 8px 15px;
+        cursor: pointer;
+    }
+
+        #add_cd_contextMenu li:hover {
+            background: #eee;
+        }
+
+/* show_cd_contextMenu */
+#show_cd_contextMenu {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+    #show_cd_contextMenu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #show_cd_contextMenu li {
+        padding: 8px 15px;
+        cursor: pointer;
+    }
+
+        #show_cd_contextMenu li:hover {
+            background: #eee;
+        }

@@ -1,0 +1,30 @@
+﻿@model DataIO.Data.DV_TuongDuong
+@{
+    ViewBag.Title = "DV_TuongDuongDelete";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DV_TuongDuong</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TenKieuDV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenKieuDV)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("DV_TDDelete", "AdminSystem", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a href="@Url.Action("DV_TDIndex")">Back to list</a>
+        </div>
+    }
+</div>

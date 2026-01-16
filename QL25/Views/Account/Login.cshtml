@@ -1,0 +1,41 @@
+﻿@model DataIO.MyModel.PassWordModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    <div class="container bg-opacity-25 my-2">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6 rounded-1 p-2 border-success border border-3 border-success">
+                <h3 class="text-center font-weight-light my-4">Đăng nhập hệ thống</h3>
+                <div class="d-flex justify-content-center flex-column">
+                    <div class="mb-1 col-sm-6 col-md-8">
+                        <p>Tài khoản</p>
+                        @Html.EditorFor(model => model.UerName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Nhập tài khoản" } })
+                        @Html.ValidationMessageFor(model => model.UerName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-1 col-sm-6 col-md-8">
+                        <p>Mật khẩu</p>
+                        @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control", @type = "password", @placeholder = "Nhập mật khẩu" } })
+                        @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6 col-md-2">
+                        <input type="submit" value="Đăng nhập" class="btn btn-primary" id="test" />
+                        @Html.ActionLink("Admin page", "AdminLogin", "Account", null, new { @class = "small" })
+                    </div>
+                </div>
+                <div class="col-md-10 text-danger d-flex justify-content-start">
+                    <label>@ViewBag.Notification</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <p style="color:red;">@ViewBag.Message</p>
+}

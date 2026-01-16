@@ -1,0 +1,42 @@
+﻿@model IEnumerable<DataIO.Data.CD>
+@{
+    ViewBag.Title = "CDIndex";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+<p>
+    <a href="@Url.Action("CDCreate")">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ChuyenNganh.TenChuyenNganh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenCD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KyHieu)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChuyenNganh.TenChuyenNganh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenCD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KyHieu)
+            </td>
+            <td>
+                <a href="@Url.Action("CDEdit", new { id = item.ID })">Edit</a>|
+                <a href="@Url.Action("CDDelete", new { id = item.ID })">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

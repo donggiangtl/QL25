@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>jsTree test</title>
+  <!-- 2 load the theme CSS file -->
+  <link rel="stylesheet" href="/Content/themes/default/style.min.css" />
+</head>
+<body>
+  <!-- 3 setup a container element -->
+  <div id="jstree">
+    <!-- in this example the tree is populated from inline HTML -->
+    <ul>
+      <li>Root node 1
+        <ul>
+          <li id="child_node_1">Child node 1</li>
+          <li>Child node 2</li>
+        </ul>
+      </li>
+      <li>Root node 2</li>
+    </ul>
+  </div>
+  <button>demo button</button>
+  <script>
+  /* $(function () {
+        $('#jstree').jstree({
+            "plugins": ["checkbox"]  // enable checkbox plugin
+        });
+
+        // Optional: Handle checked nodes
+        $('#jstree').on("changed.jstree", function (e, data) {
+            var selectedIds = data.selected;
+            console.log("Selected node IDs:", selectedIds);
+        });
+    }); */
+  </script>
+  <!-- 4 include the jQuery library -->
+  <script src="/Scripts/jquery-3.7.1.js"></script>
+  <!-- 5 include the minified jstree source -->
+  <script src="/Scripts/jstree.min.js"></script>
+  <script src="/Scripts/MyScripts/layout_js_admin.js"></script>
+</body>
+</html>

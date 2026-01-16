@@ -1,0 +1,106 @@
+﻿.menu-link {
+    display: block;
+
+    text-decoration: none;
+    color: #333;
+    border-radius: 0.25rem;
+}
+
+    .menu-link.active {
+        background-color: #fef08a; /* yellow-200 */
+        font-weight: bold;
+    }
+
+/* chỉnh lại padding của accordion*/
+.my-accordion-padding {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.toggle-btn::after {
+    content: ">";
+    float: right;
+    margin-left: 3px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-btn[aria-expanded="true"]::after {
+    content: "<";
+}
+
+.load-partial{
+    width: 200px !important;
+}
+
+.load-partial.active {
+    color: white;
+}
+
+.leftMenuItem {
+    width: 200px !important;
+}
+
+/*for jstree*/
+/* Hide default jsTree toggler icon */
+#myjstree .jstree-closed > .jstree-icon.jstree-ocl,
+#myjstree .jstree-open > .jstree-icon.jstree-ocl {
+    background: none !important;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    color: #333;
+    font-size: 14px;
+    display: inline-block;
+    border: 2px solid #999;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    /* Show plus icon (collapsed node) */
+    #myjstree .jstree-closed > .jstree-icon.jstree-ocl::before {
+        font-family: "Font Awesome 6 Free";
+        content: "\2b"; 
+        font-weight: 900;  
+    }
+
+    /* Show minus icon (expanded node) */
+    #myjstree .jstree-open > .jstree-icon.jstree-ocl::before {
+        font-family: "Font Awesome 6 Free";
+        content: "\f068";  
+        font-weight: 900;  
+    }
+#myjstree .jstree-anchor {
+    font-family: 'Segoe UI', sans-serif;
+    /*font-size: 16px;*/
+    /*color: #231414;*/
+    font-weight: 500;
+}
+
+/*text color*/
+ .jstree-folder {
+    color: darkblue !important;
+    font-size: 18px !important;
+    /*background-color:aqua !important;*/
+}
+.jstree-file {
+    color: palevioletred;
+    font-size: 14px;
+    /*background-image: url('/Content/jsTree/icons/event-planner.png') !important;*/
+    /*background-color:burlywood !important;*/
+}
+
+.service {
+    padding: 12px;
+    box-shadow: var(--shadow);
+}
+
+    .service h5 {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .service img {
+        width: 90px;
+    }
+

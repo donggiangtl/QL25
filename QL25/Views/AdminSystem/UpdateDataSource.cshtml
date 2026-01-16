@@ -1,0 +1,103 @@
+﻿@model DataIO.MyModels.SettingConnection
+
+@{
+    ViewBag.Title = "UpdateDataSource";
+    Layout = "~/Views/Shared/_AjaxAdminLayout.cshtml";
+}
+
+
+<h2>UpdateDataSource</h2>
+
+@using (Html.BeginForm("UpdateDataSource", "AdminSystem", FormMethod.Post, new { id = "mainForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataSource, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DataSource, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+            @Html.ValidationMessageFor(model => model.DataSource, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 mt-2">
+            <input type="submit" value="Save" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#passwordModal" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "AdminSystem")
+</div>
+
+
+<!-- Password Modal -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">      
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel">Verify Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="passwordInput" class="form-label">Enter your password:</label>
+                <input type="password" id="passwordInput" class="form-control" placeholder="Password">
+                <small id="errorMsg" class="text-danger"></small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="verifyPasswordBtn" class="btn btn-primary">Verify</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        console.log("UpdateDataSource Ready!"); // Debugging Check
+
+    //--------------------------------------------------------- code kiểm tra tài khoản admin-----------------------------------------
+    $('#mainForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        $("#errorMsg").text("");
+        $("#passwordInput").val("");
+    });
+
+    $("#verifyPasswordBtn").click(function () {
+
+        var enteredPassword = $("#passwordInput").val();
+        console.log("Entered Password: " + enteredPassword); // Debugging Check
+
+        if (enteredPassword.length === 0) {
+            $('#errorMsg').text('Password is required.');
+            return;
+        }
+        $.ajax({
+            url: 'VerifyPassword',
+            type: 'POST',
+            data: { password: enteredPassword },
+            success: function (response) {
+                if (response.isValid) {
+                    alert("Password verified successfully!");
+
+                    $("#passwordModal").modal('hide');
+                    $('#mainForm').unbind('submit').submit(); // Submit the main form
+                } else {
+                    $("#errorMsg").text("Incorrect password!");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error: ", error);
+                $('#errorMsg').text('An error occurred while verifying the password.');
+            }
+        });
+    });
+   
+})
+</script>
+
