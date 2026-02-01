@@ -2,12 +2,21 @@
 <html>
 <head>
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/user_css")
-    @Styles.Render("~/Content/gtree")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" />
+    @*@Styles.Render("~/Content/jstree_css")*@
+    <link href="@Url.Content("~/Content/admin_css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/font-awesome.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/solid.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/mycss/user_page.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/site.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/mycss/color.css")" rel="stylesheet" />
+    @*@Styles.Render("~/Content/gtree")*@
+    <link href="@Url.Content("~/Content/gtree/gtree.css")" rel="stylesheet" />
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    @*@Scripts.Render("~/bundles/jquery")*@
+    <script src="@Url.Content("~/Scripts/jquery-3.7.1.js")"></script>
     <link rel="stylesheet" href="~/Content/css/all.min.css">
-    
+
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-green-300">
@@ -41,11 +50,15 @@
         <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
     </footer>
 
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/gtree")
-    @Scripts.Render("~/bundles/UserLayout")
-
-    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
+    @*@Scripts.Render("~/bundles/gtree")*@
+    <script src="@Url.Content("~/Scripts/gtree/gtree.js")"></script>
+    @*@Scripts.Render("~/bundles/UserLayout")*@
+    <script src="@Url.Content("~/Scripts/MyScripts/UserLayout.js")"></script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
 
 </body>
 </html>
